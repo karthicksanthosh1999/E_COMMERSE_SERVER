@@ -2,24 +2,24 @@ import { Role, UserStatus } from "../../generated/prisma/enums";
 
 
 export class UserEntity {
-  id: string;
+  id?: string;
   name: string;
   email: string;
   phone: string | null;
   passwordHash: string;
   role: Role;
   status: UserStatus;
-  createdAt: Date;
+  createdAt?: Date;
 
   constructor(data: {
-    id: string;
+    id?: string;
     name: string;
     email: string;
     phone: string | null;
     passwordHash: string;
     role: Role;
     status: UserStatus;
-    createdAt: Date;
+    createdAt?: Date;
   }) {
     this.id = data.id;
     this.name = data.name;

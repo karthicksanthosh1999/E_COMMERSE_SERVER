@@ -1,38 +1,85 @@
-import { slugify } from "../../lib/slugify";
-import { CreateProductDto } from "./dto/product.schema";
-import { ProductEntity } from "./product.entity";
 import { ProductRepository } from "./product.repository";
+import { CreateProductDto, UpdateProductDto } from "./dto/product.schema";
+import { ApiError } from "../../lib/ApiError";
 
 export class ProductService {
+  constructor(
+    private readonly productRepository = new ProductRepository()
+  ) {}
 
-    private readonly productRepository: ProductRepository;
-    constructor(){
-        this.productRepository = new ProductRepository()
+  async create(data: CreateProductDto) {
+    const existing = await this.productRepository.findBySlug(
+      data.slug
+    );
+
+    if (existing) {
+      throw new ApiError("Product slug already exists", 409);
     }
 
-    public create = async(productData: CreateProductDto, adminId: string): Promise<ProductEntity> => {
-        const { variants, images, ...data } = productData;
+    return this.productRepository.create(data);
+  }
 
-        if(variants.some(v => v.price > v.mrp)){
-            throw Object.assign( 
-                new Error("Price cannot be greater then MRP"),
-                { status: 400 }
-            );
-        };
+  async findAll() {
+    return this.productRepository.findAll();
+  };
 
-        let slug = slugify(productData.title);
+  async findAllProducts(query: {
+        page?: number;
+        limit?: number;
+        search?: string;
+    }) {
+        const page = Math.max(1, query.page ?? 1);
+        const limit = Math.min(50, Math.max(1, query.limit ?? 10));
 
-        const existingSlug = await prisma.product.findUnique({
-            where: {
-                slug
-            }
+        const { products, totalProducts } =
+            await this.productRepository.filterProducts({
+            skip: (page - 1) * limit,
+            take: limit,
+            search: query.search,
+            sortBy: "createdAt",
+            sortOrder: "desc",
         });
 
-        if(existingSlug){
-            slug = `${slug} - ${Date.now().toString(36)}`;
-        }
+        return {
+                products,
+                pagination: {
+                totalProducts,
+                currentPage: page,
+                limit,
+                totalPages: Math.ceil(totalProducts / limit),
+                },
+        };
+    };
 
-        const product = await this.productRepository.create(productData, adminId, slug);
-        return product;
+  async findById(id: string) {
+    const product = await this.productRepository.findById(id);
+
+    if (!product) {
+      throw new ApiError("Product not found", 404);
     }
+
+    return product;
+  }
+
+  async update(id: string, data: UpdateProductDto) {
+    await this.findById(id);
+
+    if (data.slug) {
+      const existing = await this.productRepository.findBySlug(
+        data.slug
+      );
+
+      if (existing && existing.id !== id) {
+        throw new ApiError("Product slug already exists", 409);
+      }
+    }
+
+    return this.productRepository.update(id, data);
+  }
+
+  async delete(id: string) {
+    await this.findById(id);
+
+    return this.productRepository.delete(id);
+  }
 }

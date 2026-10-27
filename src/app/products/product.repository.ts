@@ -1,29 +1,87 @@
 import { prisma } from "../../db/prisma";
-import { CreateProductDto } from "./dto/product.schema";
-import { ProductEntity } from "./product.entity";
+import { CreateProductDto, UpdateProductDto } from "./dto/product.schema";
 
 export class ProductRepository {
-    public create = async(productData: CreateProductDto, adminId: string, slug: string): Promise<ProductEntity>  => {
-       const { variants, images, ...data } = productData;
+  async create(data: CreateProductDto) {
+    return prisma.product.create({
+      data: {
+        title: data.title,
+        slug: data.slug,
+        description: data.description,
+        attributes: data.attributes,
+      },
+    });
+  }
 
-        const product = await prisma.product.create({ 
-            data:  {
-                ...data,
-                slug,
-                variants: { create: variants },
-                images: { create: images.map((url, position) => ({url, position}))},
-            },
-            include: { variants: true, images: true}
-        });
+  async findAll() {
+    return prisma.product.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        categories: true,
+        variants: true,
+        vehiclePart: true,
+      }
+    });
+  };
 
-        await prisma.auditLog.create({
-            data: {
-                adminId,
-                action: "PRODUCT_CREATE",
-                entity: "Product",
-                entityId: product.id
-            }
-        })
-        return product;
-    };
+  async filterProducts(params: {
+  skip: number;
+  take: number;
+  search?: string;
+  sortBy: "createdAt" | "title";
+  sortOrder: "asc" | "desc";
+}) {
+  const where = params.search
+    ? {
+        title: {
+          contains: params.search,
+          mode: "insensitive" as const,
+        },
+      }
+    : {};
+
+  const [products, totalProducts] = await prisma.$transaction([
+    prisma.product.findMany({
+      where,
+      skip: params.skip,
+      take: params.take,
+      orderBy: {
+        [params.sortBy]: params.sortOrder,
+      },
+    }),
+    prisma.product.count({ where }),
+  ]);
+
+  return {
+    products,
+    totalProducts,
+  };
+}       
+
+  async findById(id: string) {
+    return prisma.product.findUnique({
+      where: { id },
+    });
+  }
+
+  async findBySlug(slug: string) {
+    return prisma.product.findUnique({
+      where: { slug },
+    });
+  }
+
+  async update(id: string, data: UpdateProductDto) {
+    return prisma.product.update({
+      where: { id },
+      data,
+    });
+  }
+
+  async delete(id: string) {
+    return prisma.product.delete({
+      where: { id },
+    });
+  }
 }

@@ -13,6 +13,6 @@ userRouter.get('/', userController.findAll)
 userRouter.get('/email/:email', userController.findByEmail)
 userRouter.get('/:id', userController.findById)
 userRouter.delete('/:id',  AuthMiddleware.authenticate, userController.delete)
-userRouter.put('/',  AuthMiddleware.authenticate, userController.update)
+userRouter.patch('/',  AuthMiddleware.authenticate, userController.update)
 
 export default userRouter;

@@ -1,46 +1,50 @@
-import { Request, Response } from "express";
 import { UserService } from "./user.service";
 import { APIResponse } from "../../lib/APIResponse";
+import { Body, Controller, Get, Path, Post, Route, SuccessResponse, Tags, Patch, Delete } from "tsoa";
+import { CreateUserDto } from "./dto/createUser.dto";
+import { UserEntity } from "./user.entity";
+import { UpdateUserDto } from "./dto/updateUser.dto";
 
-export class UserController {
-  private readonly userService: UserService;
+@Route("users")
+@Tags("Users")
+export class UserController extends Controller {
+  private readonly userService = new UserService();
 
-  constructor() {
-    this.userService = new UserService();
+  @Post()
+  @SuccessResponse(201, "Created")
+  public async create(@Body() body: CreateUserDto): Promise<APIResponse<UserEntity>> {
+    const user = await this.userService.createUser(body);
+    this.setStatus(201);
+    return new APIResponse("User Created Successfully", 201, user);
   }
 
-  create = async (req: Request, res: Response): Promise<void> => {
-    const user = await this.userService.createUser(req.body);
-    res.status(201).json(new APIResponse("User Created Successfully", 201, user));
-  };
-
-  findAll = async (_req: Request, res: Response):Promise<void> => {
+  @Get("/api")
+  public async findAll(): Promise<APIResponse<UserEntity[]>> {
     const users = await this.userService.getAllUsers();
-    res.status(200).json(new APIResponse("Users Fetched Successfully", 200, users));
-  };
+    return new APIResponse("Users Fetched Successfully", 200, users);
+  }
 
-  findByEmail = async (req: Request<{ email: string }>, res: Response): Promise<void> => {
-    const { email } = req.params;
+  @Get("/api/email/{email}")
+  public async findByEmail(@Path() email: string): Promise<APIResponse<UserEntity>> {
     const user = await this.userService.findByEmail(email);
-    res.status(200).json(new APIResponse("User Fetched Successfully", 200, user))
-  };
+    return new APIResponse("User Fetched Successfully", 200, user);
+  }
 
-  findById = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
-    const {id} = req.params;
+  @Get("{id}")
+  public async findById(@Path() id: string): Promise<APIResponse<UserEntity>> {
     const user = await this.userService.findById(id);
-    res.status(200).json(new APIResponse("User Fetched Successfully", 200, user))
-  };
-  
-  delete = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
-    const { id } = req.params;
+    return new APIResponse("User Fetched Successfully", 200, user);
+  }
+
+  @Patch("{id}")
+  public async update( @Path() id: string, @Body() body: UpdateUserDto): Promise<APIResponse<UserEntity>> {
+    const user = await this.userService.update(id, body);
+    return new APIResponse("User Updated Successfully", 200, user);
+  }
+
+  @Delete("{id}")
+  public async delete(@Path() id: string): Promise<APIResponse<UserEntity>> {
     const user = await this.userService.delete(id);
-    res.status(200).json(new APIResponse("User Deleted Successfully", 200, user))
-  };
-
-  update = async (req: Request, res: Response): Promise<void> => {
-    const { id, name, email, passwordHash } = req.body;
-    const user = await this.userService.update(id, {name, email, passwordHash});
-    res.status(200).json(new APIResponse("User Deleted Successfully", 200, user))
-  };
-
+    return new APIResponse("User Deleted Successfully", 200, user);
+  }
 }

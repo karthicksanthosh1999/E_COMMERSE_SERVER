@@ -1,0 +1,15 @@
+{
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/app/**/*.controller.ts"],
+  "spec": {
+    "outputDirectory": "src/generated",
+    "specVersion": 3,
+    "basePath": "/api"
+  },
+  "routes": {
+    "routesDir": "src/generated",
+    "basePath": "/api",
+    "authenticationModule": "src/middlewares/authentication.ts"
+  }
+}
