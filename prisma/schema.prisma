@@ -60,6 +60,7 @@ model Category {
   slug        String    @unique
   description String?
   image       String?
+  
   parentId    String?
   isActive    Boolean   @default(true)
   deletedAt   DateTime?

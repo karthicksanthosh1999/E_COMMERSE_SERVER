@@ -1,0 +1,35 @@
+$kind: http-request
+url: "{{BASE_URL}}/api/products"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"title\": \"Tamjaru Silk Saree\",\r
+
+    \    \"slug\": \"tamjaru-silk-saree\",\r
+
+    \    \"description\": \"Traditional Tamjaru silk saree for weddings\",\r
+
+    \    \"brandId\": null,\r
+
+    \    \"status\": \"DRAFT\",\r
+
+    \    \"attributes\": {\r
+
+    \        \"weave\": \"Tamjaru\",\r
+
+    \        \"fabric\": \"Pure Silk\",\r
+
+    \        \"length\": \"6.3 meters\",\r
+
+    \        \"region\": \"Tamil Nadu\",\r
+
+    \        \"occasion\": \"Wedding\",\r
+
+    \        \"blouseIncluded\": true\r
+
+    \    }\r
+
+    }"
+order: 5000

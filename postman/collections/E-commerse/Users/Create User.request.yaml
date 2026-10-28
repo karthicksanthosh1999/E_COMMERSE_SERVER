@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{BASE_URL}}/api/users"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\" : \"admin\",\r
+
+    \    \"phone\" : \"8220874562\",\r
+
+    \    \"email\" : \"karthick@scita.in\",\r
+
+    \    \"passwordHash\" : \"123456\",\r
+
+    \    \"role\" : \"ADMIN\",\r
+
+    \    \"status\" : \"ACTIVE\"\r
+
+    }"
+order: 5000

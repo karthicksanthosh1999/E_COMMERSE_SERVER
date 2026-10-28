@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{BASE_URL}}/api/product_category"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"productId\": \"cmvrn8q3h0000zskfa9wgjlav\",\r
+
+    \    \"categoryId\": \"cmvqhdha80001tokfq9coih0z\"\r
+
+    }"
+order: 5000

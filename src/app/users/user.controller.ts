@@ -8,7 +8,12 @@ import { UpdateUserDto } from "./dto/updateUser.dto";
 @Route("users")
 @Tags("Users")
 export class UserController extends Controller {
-  private readonly userService = new UserService();
+  private readonly userService: UserService;
+
+  constructor() {
+    super();
+    this.userService = new UserService();
+  }
 
   @Post()
   @SuccessResponse(201, "Created")
@@ -18,13 +23,13 @@ export class UserController extends Controller {
     return new APIResponse("User Created Successfully", 201, user);
   }
 
-  @Get("/api")
+  @Get()
   public async findAll(): Promise<APIResponse<UserEntity[]>> {
     const users = await this.userService.getAllUsers();
     return new APIResponse("Users Fetched Successfully", 200, users);
   }
 
-  @Get("/api/email/{email}")
+  @Get("{email}")
   public async findByEmail(@Path() email: string): Promise<APIResponse<UserEntity>> {
     const user = await this.userService.findByEmail(email);
     return new APIResponse("User Fetched Successfully", 200, user);
@@ -37,7 +42,7 @@ export class UserController extends Controller {
   }
 
   @Patch("{id}")
-  public async update( @Path() id: string, @Body() body: UpdateUserDto): Promise<APIResponse<UserEntity>> {
+  public async update(@Path() id: string, @Body() body: UpdateUserDto): Promise<APIResponse<UserEntity>> {
     const user = await this.userService.update(id, body);
     return new APIResponse("User Updated Successfully", 200, user);
   }

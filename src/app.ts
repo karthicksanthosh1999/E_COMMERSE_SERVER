@@ -14,6 +14,7 @@ import swaggerUi from "swagger-ui-express";
 import fs from "fs";
 import path from "path";
 import { RegisterRoutes } from "./generated/routes";
+import productVariantRouter from "./app/product_variant/product_variant.route";
 
 export class App {
   public readonly app = express();
@@ -54,6 +55,7 @@ export class App {
     this.app.use("/api/category", categoryRouter);
     this.app.use("/api/products", productRouter);
     this.app.use("/api/product_category", productCategoryRouter);
+    this.app.use("/api/product_variant", productVariantRouter);
   
   }
 

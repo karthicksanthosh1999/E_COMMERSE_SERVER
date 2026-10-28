@@ -102,7 +102,7 @@ export function RegisterRoutes(app: Router) {
         const argsUserController_create: Record<string, TsoaRoute.ParameterSchema> = {
                 body: {"in":"body","name":"body","required":true,"ref":"CreateUserDto"},
         };
-        app.post('/users',
+        app.post('/api/users',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.create)),
 
@@ -131,7 +131,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_findAll: Record<string, TsoaRoute.ParameterSchema> = {
         };
-        app.get('/users',
+        app.get('/api/users',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.findAll)),
 
@@ -161,7 +161,7 @@ export function RegisterRoutes(app: Router) {
         const argsUserController_findByEmail: Record<string, TsoaRoute.ParameterSchema> = {
                 email: {"in":"path","name":"email","required":true,"dataType":"string"},
         };
-        app.get('/users/by-email/:email',
+        app.get('/api/users/:email',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.findByEmail)),
 
@@ -191,7 +191,7 @@ export function RegisterRoutes(app: Router) {
         const argsUserController_findById: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
-        app.get('/users/:id',
+        app.get('/api/users/:id',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.findById)),
 
@@ -222,7 +222,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
                 body: {"in":"body","name":"body","required":true,"ref":"UpdateUserDto"},
         };
-        app.patch('/users/:id',
+        app.patch('/api/users/:id',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.update)),
 
@@ -252,7 +252,7 @@ export function RegisterRoutes(app: Router) {
         const argsUserController_delete: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
-        app.delete('/users/:id',
+        app.delete('/api/users/:id',
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.delete)),
 

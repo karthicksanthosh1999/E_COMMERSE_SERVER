@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{BASE_URL}}/api/category/getSingle-category/cmvrnmxk90002zskf96fvp80s"
+method: GET
+order: 2878

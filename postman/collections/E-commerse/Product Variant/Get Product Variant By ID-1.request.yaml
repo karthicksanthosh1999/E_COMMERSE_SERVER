@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get Product Variant By ID
+url: "{{BASE_URL}}/api/product_variant/cmvrxms0y0000bgkfs9bscrz7"
+method: GET
+order: 3518

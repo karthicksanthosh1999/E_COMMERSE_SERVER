@@ -224,7 +224,7 @@
 				"parameters": []
 			}
 		},
-		"/users/by-email/{email}": {
+		"/users/{email}": {
 			"get": {
 				"operationId": "FindByEmail",
 				"responses": {
@@ -357,7 +357,7 @@
 	},
 	"servers": [
 		{
-			"url": "/"
+			"url": "/api"
 		}
 	]
 }

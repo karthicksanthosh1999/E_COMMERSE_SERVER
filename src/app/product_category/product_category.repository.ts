@@ -3,6 +3,7 @@ import {
   CreateProductCategoryDto,
   UpdateProductCategoryDto,
 } from "./dto/product_category.schema";
+import { ProductCategoryEntity } from "./product_category.entity";
 
 export class ProductCategoryRepository {
   // Assign a category to a product
@@ -16,7 +17,7 @@ export class ProductCategoryRepository {
   }
 
   // Get all product-category relationships
-  async findAll() {
+  async findAll(): Promise<ProductCategoryEntity[]> {
     return prisma.productCategory.findMany({
       orderBy: {
         createdAt: "desc",
@@ -26,7 +27,7 @@ export class ProductCategoryRepository {
         category: true,
       },
     });
-  }
+  };
 
   // Find a relationship using the composite key
   async findById(productId: string, categoryId: string) {

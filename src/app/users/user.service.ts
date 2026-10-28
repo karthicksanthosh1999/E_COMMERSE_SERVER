@@ -22,16 +22,14 @@ export class UserService{
         return createdUser
     };
 
-    async getAllUsers(): Promise<CreateUserDto[]>{
+    async getAllUsers(): Promise<UserEntity[]>{
         const users =  await this.userRepository.findAll();
         return users
     };
 
-    async findByEmail(email: string): Promise<CreateUserDto>{
-
+    async findByEmail(email: string): Promise<UserEntity>{
         let user = await this.userRepository.findByEmail(email);
         if(!user) throw new ApiError("User Not Found", 400);
-
         return user;
     };
     

@@ -1,13 +1,15 @@
 import { ApiError } from "../../lib/ApiError";
 import { ProductCategoryRepository } from "./product_category.repository";
-import { CreateProductCategoryDto, UpdateProductCategoryDto } from "./dto/product_category.schema";
+import { CreateProductCategoryDto } from "./dto/product_category.schema";
+import { ProductCategoryEntity } from "./product_category.entity";
 
 export class ProductCategoryService {
-  constructor(
-    private readonly productCategoryRepository = new ProductCategoryRepository()
-  ) {}
+  private readonly productCategoryRepository: ProductCategoryRepository; 
+  constructor() {
+    this.productCategoryRepository = new ProductCategoryRepository()
+  }
 
-  async create(data: CreateProductCategoryDto) {
+  async create(data: CreateProductCategoryDto): Promise<ProductCategoryEntity> {
     const existing = await this.productCategoryRepository.findById(
         data.productId, data.categoryId
     );
@@ -19,11 +21,11 @@ export class ProductCategoryService {
     return this.productCategoryRepository.create(data);
   }
 
-  async findAll() {
+  async findAll(): Promise<ProductCategoryEntity[]> {
     return this.productCategoryRepository.findAll();
   };
 
-  async findById(data: CreateProductCategoryDto) {
+  async findById(data: CreateProductCategoryDto): Promise<ProductCategoryEntity> {
     const productCategory = await this.productCategoryRepository.findById(data.productId, data.categoryId);
 
     if (!productCategory) {
