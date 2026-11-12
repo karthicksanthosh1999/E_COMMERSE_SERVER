@@ -13,7 +13,11 @@ export class ProductVariantRepository {
                 sku: productVariantData.sku,
                 price: productVariantData.price,
                 mrp: productVariantData.mrp,
+                unitOfMeasure: productVariantData.unitOfMeasure,
                 attributes: productVariantData.attributes === undefined ? undefined : (productVariantData.attributes as Prisma.InputJsonObject),
+                compatibleVehicles: productVariantData.compatibleVehicleIds ? {
+                    create: productVariantData.compatibleVehicleIds.map(vehicleId => ({ vehicle: { connect: { id: vehicleId } } }))
+                } : undefined,
             }
         });
         return productVariant;
@@ -52,7 +56,12 @@ export class ProductVariantRepository {
                     sku: productVariantData.sku,
                     price: productVariantData.price,
                     mrp: productVariantData.mrp,
+                    unitOfMeasure: productVariantData.unitOfMeasure,
                     attributes: productVariantData.attributes === undefined ? undefined : productVariantData.attributes as Prisma.InputJsonObject,
+                    compatibleVehicles: productVariantData.compatibleVehicleIds ? {
+                        deleteMany: {},
+                        create: productVariantData.compatibleVehicleIds.map(vehicleId => ({ vehicle: { connect: { id: vehicleId } } }))
+                    } : undefined,
                 }
             }
         );

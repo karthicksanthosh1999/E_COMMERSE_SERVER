@@ -47,13 +47,13 @@ export class UserService{
         return user;
     };
 
-    async update(id: string, user:UpdateUserDto):Promise<UserEntity> {
-          const updateData: UpdateUserDto = {...user};
+    async update(user:UpdateUserDto):Promise<UserEntity> {
+        const updateData: UpdateUserDto = {...user};
 
         if (user.passwordHash) {
             updateData.passwordHash = await bcrypt.hash(user.passwordHash, 10);
         }
-        const updatedUser = await this.userRepository.update(id,updateData);
+        const updatedUser = await this.userRepository.update(updateData?.id, updateData);
         if (!updatedUser) throw new ApiError("User Not Found", 404);
 
         return updatedUser;

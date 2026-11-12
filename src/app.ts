@@ -13,8 +13,8 @@ import productCategoryRouter from "./app/product_category/product_category.route
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
 import path from "path";
-import { RegisterRoutes } from "./generated/routes";
 import productVariantRouter from "./app/product_variant/product_variant.route";
+import vehicleRouter from "./app/vehicles/vehicle.router";
 
 export class App {
   public readonly app = express();
@@ -49,13 +49,13 @@ export class App {
       });
     });
 
-    RegisterRoutes(this.app);
     this.app.use("/api/users", userRouter);
     this.app.use("/api/auth", authRoute);
     this.app.use("/api/category", categoryRouter);
     this.app.use("/api/products", productRouter);
     this.app.use("/api/product_category", productCategoryRouter);
     this.app.use("/api/product_variant", productVariantRouter);
+    this.app.use("/api/vehicles", vehicleRouter);
   
   }
 

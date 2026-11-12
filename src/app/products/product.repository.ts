@@ -1,5 +1,6 @@
 import { prisma } from "../../db/prisma";
 import { CreateProductDto, UpdateProductDto } from "./dto/product.schema";
+import { Prisma } from "../../generated/prisma/client";
 
 export class ProductRepository {
   async create(data: CreateProductDto) {
@@ -8,8 +9,15 @@ export class ProductRepository {
         title: data.title,
         slug: data.slug,
         description: data.description,
-        attributes: data.attributes,
+        attributes: data.attributes === undefined ? undefined : data.attributes as Prisma.InputJsonObject,
+        brandId: data.brandId,
+        status: data.status,
+        categories: data.categoryIds ? { create: data.categoryIds.map(categoryId => ({ categoryId })) } : undefined,
+        sareeDetails: data.sareeDetails ? { create: { ...data.sareeDetails, lengthMeters: data.sareeDetails.lengthMeters } } : undefined,
+        snackDetails: data.snackDetails ? { create: { ...data.snackDetails, netQuantity: data.snackDetails.netQuantity } } : undefined,
+        vehiclePart: data.vehiclePart ? { create: data.vehiclePart } : undefined,
       },
+      include: { categories: true, variants: true, vehiclePart: true, sareeDetails: true, snackDetails: true },
     });
   }
 
@@ -22,6 +30,8 @@ export class ProductRepository {
         categories: true,
         variants: true,
         vehiclePart: true,
+        sareeDetails: true,
+        snackDetails: true,
       }
     });
   };
@@ -63,6 +73,7 @@ export class ProductRepository {
   async findById(id: string) {
     return prisma.product.findUnique({
       where: { id },
+      include: { categories: true, variants: true, vehiclePart: true, sareeDetails: true, snackDetails: true },
     });
   }
 
@@ -75,7 +86,16 @@ export class ProductRepository {
   async update(id: string, data: UpdateProductDto) {
     return prisma.product.update({
       where: { id },
-      data,
+      data: {
+        title: data.title, slug: data.slug, description: data.description,
+        brandId: data.brandId, status: data.status,
+        attributes: data.attributes === undefined ? undefined : data.attributes as Prisma.InputJsonObject,
+        categories: data.categoryIds ? { deleteMany: {}, create: data.categoryIds.map(categoryId => ({ categoryId })) } : undefined,
+        sareeDetails: data.sareeDetails ? { upsert: { create: data.sareeDetails, update: data.sareeDetails } } : undefined,
+        snackDetails: data.snackDetails ? { upsert: { create: data.snackDetails, update: data.snackDetails } } : undefined,
+        vehiclePart: data.vehiclePart ? { upsert: { create: data.vehiclePart, update: data.vehiclePart } } : undefined,
+      },
+      include: { categories: true, variants: true, vehiclePart: true, sareeDetails: true, snackDetails: true },
     });
   }
 

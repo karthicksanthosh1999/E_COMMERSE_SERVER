@@ -55,19 +55,19 @@ model Address {
 // ==========================================
 
 model Category {
-  id          String    @id @default(cuid())
+  id          String  @id @default(cuid())
   name        String
-  slug        String    @unique
+  slug        String  @unique
   description String?
   image       String?
-  
-  parentId    String?
-  isActive    Boolean   @default(true)
-  deletedAt   DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
 
-  parent Category? @relation("CategoryTree", fields: [parentId], references: [id], onDelete: Restrict)
+  parentId  String?
+  isActive  Boolean   @default(true)
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: Restrict)
   children Category[] @relation("CategoryTree")
 
   products ProductCategory[]
@@ -103,10 +103,36 @@ model Product {
   reviews    Review[]
   wishlist   Wishlist[]
 
-  vehiclePart VehiclePart?
+  vehiclePart  VehiclePart?
+  sareeDetails SareeDetails?
+  snackDetails SnackDetails?
 
   @@index([status])
   @@index([brandId])
+}
+
+// Optional structured fields for apparel products. Product remains category-neutral.
+model SareeDetails {
+  productId        String   @id
+  fabric           String?
+  weave            String?
+  lengthMeters     Decimal? @db.Decimal(6, 2)
+  blouseIncluded   Boolean  @default(false)
+  occasion         String?
+  careInstructions String?
+  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+// Food metadata applies to packaged snacks and other food catalog items.
+model SnackDetails {
+  productId      String        @id
+  ingredients    String[]
+  allergens      String[]
+  netQuantity    Decimal?      @db.Decimal(10, 3)
+  unit           UnitOfMeasure @default(GRAM)
+  dietaryTags    String[]
+  bestBeforeDays Int?
+  product        Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 // ==========================================
@@ -119,7 +145,7 @@ model ProductCategory {
   categoryId String
   createdAt  DateTime @default(now())
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@id([productId, categoryId])

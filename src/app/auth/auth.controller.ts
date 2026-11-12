@@ -1,18 +1,13 @@
 import { Request, Response } from "express";
 import { AuthService } from "./auth.service";
 import { APIResponse } from "../../lib/APIResponse";
-import jwt from "jsonwebtoken";
-import { UserService } from "../users/user.service";
 import { ApiError } from "../../lib/ApiError";
-
 export class AuthController{
 
     private readonly authService: AuthService;
-    constructor(
-        private readonly userService = new UserService()
-    ){ 
-        this.authService = new AuthService(); }
-    ;
+    constructor(){ 
+        this.authService = new AuthService(); 
+    };
 
     login = async(req: Request, res: Response) => {
         const { email, password } = req.body;
