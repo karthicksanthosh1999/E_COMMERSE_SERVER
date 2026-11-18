@@ -9,7 +9,6 @@
   },
   "routes": {
     "routesDir": "src/generated",
-    "basePath": "/api",
-    "authenticationModule": "src/middlewares/authentication.ts"
+    "basePath": "/api"
   }
 }

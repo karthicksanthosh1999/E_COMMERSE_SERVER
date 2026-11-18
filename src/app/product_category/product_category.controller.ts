@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 import { ApiError } from "../../lib/ApiError";
 import { APIResponse } from "../../lib/APIResponse";
 import { ProductCategoryService } from "./product_category.service";
-import { createProductCategorySchema, updateProductCategorySchema } from "./dto/product_category.schema";
-
+import { createProductCategorySchema } from "./dto/product_category.schema";
 export class ProductCategoryController {
   constructor(
     private readonly productCategoryService = new ProductCategoryService()

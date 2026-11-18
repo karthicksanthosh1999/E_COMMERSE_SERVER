@@ -1,0 +1,29 @@
+$kind: http-request
+url: "{{BASE_URL}}/api/product_variant/update"
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"id\": \"cmvrxms0y0000bgkfs9bscrz7\",\r
+
+    \    \"productId\": \"cmvrn8q3h0000zskfa9wgjlav\",\r
+
+    \    \"sku\" : \"TSH-BLK-M-001\",\r
+
+    \    \"price\" : 500,\r
+
+    \    \"mrp\" : 550,\r
+
+    \    \"attributes\" : {\r
+
+    \        \"size\" : [\"M\",\"S\",\"XL\",\"2XL\"],\r
+
+    \        \"color\": [\"Black\",\"Blue\",\"White\"],\r
+
+    \        \"design\": \"tranding\"\r
+
+    \    }\r
+
+    }"
+order: 4783

@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{BASE_URL}}/api/category"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\":\"Dress\",\r
+
+    \    \"slug\":\"products-dress\",\r
+
+    \    \"description\":\"This is only dress category\"\r
+
+    }"
+order: 5000

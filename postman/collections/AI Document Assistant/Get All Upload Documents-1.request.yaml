@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get All Upload Documents
+url: http://localhost:5000/api/document
+method: GET
+order: 2742

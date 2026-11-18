@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{BASE_URL}}/api/users/email/karthick@scita.in"
+method: GET
+order: 4000

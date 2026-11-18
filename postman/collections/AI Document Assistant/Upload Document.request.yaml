@@ -1,0 +1,13 @@
+$kind: http-request
+url: http://localhost:5000/api/document
+method: POST
+body:
+  type: formdata
+  content:
+    - type: file
+      key: document
+      src:
+        - /C:/Users/Scita/Downloads/Karthick.S_full_stack_developer (1).pdf
+      description: ""
+      disabled: false
+order: 4000

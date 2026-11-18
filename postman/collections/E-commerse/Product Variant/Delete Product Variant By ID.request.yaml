@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{BASE_URL}}/api/product_variant/delete/cmvrxms0y0000bgkfs9bscrz7"
+method: DELETE
+order: 2000

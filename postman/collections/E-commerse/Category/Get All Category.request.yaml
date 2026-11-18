@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{BASE_URL}}/api/category"
+method: GET
+order: 1000
