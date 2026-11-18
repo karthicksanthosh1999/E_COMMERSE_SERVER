@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run tsoa && tsx watch src/server.ts",
-    "build": "npm run tsoa && tsc",
+    "dev": "npm run && tsx watch src/server.ts",
+    "build": "npm run && tsc",
     "start": "node dist/server.js",
-    "tsoa": "tsoa spec-and-routes",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio"

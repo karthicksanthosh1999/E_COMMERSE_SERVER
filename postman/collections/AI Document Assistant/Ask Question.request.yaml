@@ -1,0 +1,13 @@
+$kind: http-request
+url: http://localhost:5000/api/rag/ask
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"documentId\": \"3bd867e7-d0c2-4651-a334-77f0ffb74fd8\",\r
+
+    \    \"question\" : \"Explain his skils.\"\r
+
+    }"
+order: 1000

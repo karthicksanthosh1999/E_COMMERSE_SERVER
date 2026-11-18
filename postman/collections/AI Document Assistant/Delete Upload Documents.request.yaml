@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:5000/api/document/3bd867e7-d0c2-4651-a334-77f0ffb74fd8
+method: DELETE
+order: 3000

@@ -10,9 +10,6 @@ import cookieParser from "cookie-parser";
 import categoryRouter from "./app/category/category.router";
 import productRouter from "./app/products/product.routes";
 import productCategoryRouter from "./app/product_category/product_category.router";
-import swaggerUi from "swagger-ui-express";
-import fs from "fs";
-import path from "path";
 import productVariantRouter from "./app/product_variant/product_variant.route";
 import vehicleRouter from "./app/vehicles/vehicle.router";
 
@@ -26,9 +23,7 @@ export class App {
   }
 
   private initializeMiddlewares() {
-    const swaggerSpec = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "generated/swagger.json"), "utf-8")
-);
+
     this.app.use(cors({
       origin: ["http://192.168.2.48:3000","http://localhost:3000"],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
@@ -38,7 +33,6 @@ export class App {
     this.app.use(express.json());
     this.app.use(cookieParser());
     this.app.use(loggerMiddleware.handle);
-    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   }
   
   private initializeRoutes() {
